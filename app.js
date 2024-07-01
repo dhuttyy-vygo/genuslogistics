@@ -2,6 +2,9 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Swiper } from 'swiper';
 import SplitType from 'split-type';
+import Player from "@vimeo/player"
+
+
 
 // Register ScrollTrigger with gsap
 gsap.registerPlugin(ScrollTrigger);
@@ -13,47 +16,60 @@ var Qe = gsap;
 
 (() => {
 
-    var vimeoModal = () => {
-        const videoItems = document.querySelectorAll(".gl-video-item"),
-          modalContainer = document.querySelector(".gl-video-modal"),
-          iframe = document.querySelector("#gl-modal"),
-          modalBackdrop = document.querySelector(".gl-modal-backdrop");
-          if (!iframe) {
-            console.log("Iframe not found on the page");
-            return;
-          }
-        let vplayer = null;
-    
-        videoItems.forEach((videoItem) => {
-          videoItem.addEventListener("click", () => {
-            const dataVideo = videoItem.getAttribute("data-player");
-            iframe.src = `https://player.vimeo.com/video/${dataVideo}?autoplay=1&muted=0`;
-    
-            vplayer = new Vimeo.Player(iframe);
-            vplayer.ready().then(() => {
-              vplayer.play();
-            });
-    
-            modalContainer.classList.add("-open");
-            opened = true;
-          });
+  var vimeoModal = () => {
+    const videoItems = document.querySelectorAll(".gl-video-item");
+    const modalContainer = document.querySelector(".gl-video-modal");
+    const iframe = document.querySelector("#gl-modal");
+    const modalBackdrop = document.querySelector(".gl-modal-backdrop");
+    let vplayer = null;
+    let opened = false; // Ensure opened is defined
+  
+    if (!iframe) {
+      console.log("Iframe not found on the page");
+      return;
+    }
+  
+    if (!modalContainer) {
+      console.log("Modal container not found on the page");
+      return;
+    }
+  
+    if (!modalBackdrop) {
+      console.log("Modal backdrop not found on the page");
+      return;
+    }
+  
+    videoItems.forEach((videoItem) => {
+      videoItem.addEventListener("click", () => {
+        const dataVideo = videoItem.getAttribute("data-player");
+        iframe.src = `https://player.vimeo.com/video/${dataVideo}?autoplay=1&muted=0`;
+  
+        vplayer = new Player(iframe); // Use Player directly
+        vplayer.ready().then(() => {
+          vplayer.play();
         });
-    
-        modalBackdrop.onclick = function () {
-          modalContainer.classList.remove("-open");
-          opened = false;
-          if (vplayer) {
-            vplayer
-              .pause()
-              .then(() => {
-                iframe.src = "";
-              })
-              .catch((error) => {
-                console.error("Error pausing the video", error);
-              });
-          }
-        };
-      };
+  
+        modalContainer.classList.add("-open");
+        opened = true;
+      });
+    });
+  
+    modalBackdrop.onclick = function () {
+      modalContainer.classList.remove("-open");
+      opened = false;
+      if (vplayer) {
+        vplayer
+          .pause()
+          .then(() => {
+            iframe.src = "";
+          })
+          .catch((error) => {
+            console.error("Error pausing the video", error);
+          });
+      }
+    };
+  };
+
 
       var reelerX = function () {
 

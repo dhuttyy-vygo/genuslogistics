@@ -92,13 +92,8 @@ var Qe = gsap;
                 loop: false,
                 // Adding navigation options
                 navigation: {
-                nextEl: ".gl-swipe-button.next", // Specify the class for the next button
-                prevEl: ".gl-swipe-button.back", // Specify the class for the previous button
-                },
-                breakpoints: {
-                991: {
-                    slidesPerView: "auto",
-                },
+                nextEl: ".gl-swipe-button.next", 
+                prevEl: ".gl-swipe-button.back", 
                 },
             });
             });
@@ -126,8 +121,8 @@ var Qe = gsap;
                 },
                 // Adding navigation options
                 navigation: {
-                nextEl: ".gl-fleet-button.next", // Specify the class for the next button
-                prevEl: ".gl-fleet-button.back", // Specify the class for the previous button
+                nextEl: ".gl-fleet-back", 
+                prevEl: ".gl-fleet-next", 
                 },
                 breakpoints: {
                 150: {
@@ -539,55 +534,65 @@ var Qe = gsap;
             });
 
 
-            const forms = document.querySelectorAll(".gl-get-quote");
+            const forms = document.querySelectorAll('.w-form');
 
-                forms.forEach((form) => {
+              forms.forEach(form => {
                 const addButton = form.querySelector('[data-form-quote="add-item"]');
                 const removeButton = form.querySelector('[data-form-quote="remove-item"]');
-                const parcelContainer = form.querySelector(".parcel-container");
+                const parcelContainer = form.querySelector('.parcel-container');
 
-                addButton.addEventListener("click", function (event) {
-                    event.preventDefault();
-                    addParcelItem(parcelContainer, removeButton);
+                addButton.addEventListener("click", function(event) {
+                  event.preventDefault();
+                  addParcelItem(parcelContainer, removeButton);
                 });
 
-                removeButton.addEventListener("click", function (event) {
-                    event.preventDefault();
-                    removeParcelItem(parcelContainer, removeButton);
+                removeButton.addEventListener("click", function(event) {
+                  event.preventDefault();
+                  removeParcelItem(parcelContainer, removeButton);
                 });
 
                 function addParcelItem(parcelContainer, removeButton) {
-                    const parcelItem = parcelContainer
-                    .querySelector('[data-form-quote="item"]')
-                    .cloneNode(true);
-                    parcelContainer.appendChild(parcelItem);
-                    updateRemoveButtonVisibility(parcelContainer, removeButton);
+                  const parcelItem = parcelContainer.querySelector('[data-form-quote="item"]').cloneNode(true);
+                  const newIndex = parcelContainer.querySelectorAll('[data-form-quote="item"]').length + 1;
+
+                  // Update the IDs and names of the input fields within the cloned container
+                  const inputs = parcelItem.querySelectorAll('input');
+                  inputs.forEach(input => {
+                    const name = input.getAttribute('name');
+                    const id = input.getAttribute('id');
+                    if (name) {
+                      input.setAttribute('name', `${name}-${newIndex}`);
+                    }
+                    if (id) {
+                      input.setAttribute('id', `${id}-${newIndex}`);
+                    }
+                  });
+
+                  parcelContainer.appendChild(parcelItem);
+                  updateRemoveButtonVisibility(parcelContainer, removeButton);
                 }
 
                 function removeParcelItem(parcelContainer, removeButton) {
-                    const parcelItems = parcelContainer.querySelectorAll(
-                    '[data-form-quote="item"]'
-                    );
-                    if (parcelItems.length > 1) {
+                  const parcelItems = parcelContainer.querySelectorAll('[data-form-quote="item"]');
+                  if (parcelItems.length > 1) {
                     parcelContainer.removeChild(parcelItems[parcelItems.length - 1]);
-                    }
-                    updateRemoveButtonVisibility(parcelContainer, removeButton);
+                  }
+                  updateRemoveButtonVisibility(parcelContainer, removeButton);
                 }
 
                 function updateRemoveButtonVisibility(parcelContainer, removeButton) {
-                    const parcelItems = parcelContainer.querySelectorAll(
-                    '[data-form-quote="item"]'
-                    );
-                    if (parcelItems.length <= 1) {
-                    removeButton.style.display = "none";
-                    } else {
-                    removeButton.style.display = "inline-flex";
-                    }
+                  const parcelItems = parcelContainer.querySelectorAll('[data-form-quote="item"]');
+                  if (parcelItems.length <= 1) {
+                    removeButton.style.display = 'none';
+                  } else {
+                    removeButton.style.display = 'inline-block';
+                  }
                 }
 
                 // Initial call to set the correct visibility of the remove button on page load
                 updateRemoveButtonVisibility(parcelContainer, removeButton);
-                });
+              });
+
 
 
                 let typeSplit = new SplitType(".h-swap", {
@@ -765,9 +770,9 @@ var Qe = gsap;
 
         // end of dom contentLoaded //
 
-  window.onbeforeunload = function () {
+  window.addEventListener("pagehide", function () {
     window.scrollTo(0, 0);
-  };
+  });
 })();
 
 

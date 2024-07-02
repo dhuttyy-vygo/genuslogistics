@@ -30,10 +30,6 @@
   background: #fff;
 }
 
-.btn-w-a.inline-btn:after {
-  background-color: #0000;
-}
-
 .btn-w-a.outline:hover {
   color: #fff;
 }
@@ -45,6 +41,10 @@
 
 .btn-w-a:hover .gl-m-l-arrow {
   margin-left: 0;
+}
+
+.btn-w-a.inline-btn:after {
+  background-color: #0000;
 }
 
 .btn-arrow-h {

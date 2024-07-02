@@ -657,11 +657,6 @@ var Qe = (0, _gsap.gsap);
                 navigation: {
                     nextEl: ".gl-swipe-button.next",
                     prevEl: ".gl-swipe-button.back"
-                },
-                breakpoints: {
-                    991: {
-                        slidesPerView: "auto"
-                    }
                 }
             });
         });
@@ -684,8 +679,8 @@ var Qe = (0, _gsap.gsap);
                 },
                 // Adding navigation options
                 navigation: {
-                    nextEl: ".gl-fleet-button.next",
-                    prevEl: ".gl-fleet-button.back"
+                    nextEl: ".gl-fleet-back",
+                    prevEl: ".gl-fleet-next"
                 },
                 breakpoints: {
                     150: {
@@ -1063,7 +1058,7 @@ var Qe = (0, _gsap.gsap);
                 }
             });
         });
-        const forms = document.querySelectorAll(".gl-get-quote");
+        const forms = document.querySelectorAll(".w-form");
         forms.forEach((form)=>{
             const addButton = form.querySelector('[data-form-quote="add-item"]');
             const removeButton = form.querySelector('[data-form-quote="remove-item"]');
@@ -1078,6 +1073,15 @@ var Qe = (0, _gsap.gsap);
             });
             function addParcelItem(parcelContainer, removeButton) {
                 const parcelItem = parcelContainer.querySelector('[data-form-quote="item"]').cloneNode(true);
+                const newIndex = parcelContainer.querySelectorAll('[data-form-quote="item"]').length + 1;
+                // Update the IDs and names of the input fields within the cloned container
+                const inputs = parcelItem.querySelectorAll("input");
+                inputs.forEach((input)=>{
+                    const name = input.getAttribute("name");
+                    const id = input.getAttribute("id");
+                    if (name) input.setAttribute("name", `${name}-${newIndex}`);
+                    if (id) input.setAttribute("id", `${id}-${newIndex}`);
+                });
                 parcelContainer.appendChild(parcelItem);
                 updateRemoveButtonVisibility(parcelContainer, removeButton);
             }
@@ -1089,7 +1093,7 @@ var Qe = (0, _gsap.gsap);
             function updateRemoveButtonVisibility(parcelContainer, removeButton) {
                 const parcelItems = parcelContainer.querySelectorAll('[data-form-quote="item"]');
                 if (parcelItems.length <= 1) removeButton.style.display = "none";
-                else removeButton.style.display = "inline-flex";
+                else removeButton.style.display = "inline-block";
             }
             // Initial call to set the correct visibility of the remove button on page load
             updateRemoveButtonVisibility(parcelContainer, removeButton);
@@ -1229,9 +1233,9 @@ var Qe = (0, _gsap.gsap);
         });
     });
     // end of dom contentLoaded //
-    window.onbeforeunload = function() {
+    window.addEventListener("pagehide", function() {
         window.scrollTo(0, 0);
-    };
+    });
 })();
 
 },{"gsap":"fPSuC","gsap/ScrollTrigger":"7wnFk","swiper":"iM6UL","split-type":"fvGAG","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@vimeo/player":"kmmUG"}],"fPSuC":[function(require,module,exports) {

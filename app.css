@@ -30,22 +30,24 @@
     color: black;
 }
 
+.btn-w-a.outline:hover {
+  color: white;
+}
+
+.btn-w-a.outline:hover .btn-arrow-h {
+  background: #4ED1FF;
+  color: #fff;
+}
+
+.btn-w-a:hover .gl-m-l-arrow {
+  margin-left: 0;
+}
+
 .btn-w-a.inline-btn::after {
     background-color: transparent;
 }
 
-.btn-w-a.outline:hover {
-    color: white;
-}
 
-.btn-w-a.outline:hover .btn-arrow-h {
-    background: #4ED1FF;
-    color: #fff;
-}
-
-.btn-w-a:hover .gl-m-l-arrow {
-    margin-left: 0;
-}
 
 .btn-arrow-h {
     position: relative;

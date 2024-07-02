@@ -1074,13 +1074,15 @@ var Qe = (0, _gsap.gsap);
             function addParcelItem(parcelContainer, removeButton) {
                 const parcelItem = parcelContainer.querySelector('[data-form-quote="item"]').cloneNode(true);
                 const newIndex = parcelContainer.querySelectorAll('[data-form-quote="item"]').length + 1;
-                // Update the IDs and names of the input fields within the cloned container
+                // Update the IDs, names, and data-names of the input fields within the cloned container
                 const inputs = parcelItem.querySelectorAll("input");
                 inputs.forEach((input)=>{
                     const name = input.getAttribute("name");
                     const id = input.getAttribute("id");
+                    const dataName = input.getAttribute("data-name");
                     if (name) input.setAttribute("name", `${name}-${newIndex}`);
                     if (id) input.setAttribute("id", `${id}-${newIndex}`);
+                    if (dataName) input.setAttribute("data-name", `${dataName}-${newIndex}`);
                 });
                 parcelContainer.appendChild(parcelItem);
                 updateRemoveButtonVisibility(parcelContainer, removeButton);
